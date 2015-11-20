@@ -157,4 +157,4 @@
 
 (provide '77-mode-mapping)
 
-;;; 00-mode-mapping ends here
+;;; 77-mode-mapping ends here

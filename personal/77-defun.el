@@ -13,7 +13,8 @@
   (interactive)
   (save-excursion ; save current buffer and point.
     (goto-char 1) ; goto top of document
-    (insert "-*- coding: utf-8 -*-\n")
+	;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
+    (insert "-*- coding: utf-8; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*-\n")
     (goto-char 1)
     ;; insert comment - because some comments needs to be terminated, I use
     ;; (comment-region) instead of (comment-insert-comment-function). See also
@@ -40,3 +41,18 @@
    nil '(("\\<\\(FIX\\|TODO\\|FIXME\\|HACK\\|REFACTOR\\|NOCOMMIT\\|NOTE\\)"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'my-add-watchwords)
+
+
+;; Code to toggle languages
+(defun ispell-toggle-dictionary()
+  (interactive)
+  ;; ispell-current-dictionary is not a valid call any more.
+  (let* ((dic ispell-current-dictionary)
+         (change (if (string= dic "danish") "english" "danish")))
+    (ispell-change-dictionary change)
+    (message "Dictionary switched from %s to %s" dic change)
+    ))
+
+
+(provide '77-defun)
+;;; 77-defun ends here
