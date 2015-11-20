@@ -48,6 +48,27 @@
       (when (= p (point)) ad-do-it))))
 
 
+
+;; edit server
+(when (and (daemonp) (locate-library "edit-server"))
+  (require 'edit-server)
+  (edit-server-start))
+(autoload 'edit-server-maybe-dehtmlize-buffer "edit-server-htmlize" "edit-server-htmlize" t)
+(autoload 'edit-server-maybe-htmlize-buffer   "edit-server-htmlize" "edit-server-htmlize" t)
+(add-hook 'edit-server-start-hook 'edit-server-maybe-dehtmlize-buffer)
+(add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer)
+
+;; two ways to set custom major mode for url.
+(setq edit-server-url-major-mode-alist
+	  '(("studentergaarden\\.dk\\.wiki" . mediawiki-mode)))
+(setq edit-server-url-major-mode-alist
+	  '(("studentergaarden\\.dk\\.w" . mediawiki-mode)))
+
+(add-hook 'edit-server-start-hook
+          (lambda ()
+            (when (string-match "studentergaarden.dk/wiki/" (buffer-name))
+              (markdown-mode))))
+
 ;; ;; File encoding
 ;; (require 'un-define "un-define" t)
 ;; (set-buffer-file-coding-system 'utf-8 'utf-8-unix)
