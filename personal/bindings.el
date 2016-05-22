@@ -31,7 +31,7 @@
 (global-set-key [H-f10]  'flyspell-buffer)
 ; Turn off the menu bar
 (global-set-key [f12] 'kill-buffer)
-(global-set-key [C-tab] "\C-q\t"); insert tab
+(global-set-key [S-tab] "\C-q\t"); insert tab
 
 (global-set-key [f9] 'my-compile-func)
 (global-set-key [C-S-f9] 'my-compile-clean-func)

@@ -5,6 +5,8 @@
 (setq lua-indent-level 4)
 (setq whitespace-toggle-options '(tabs))
 
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 (defun my-c-mode-defaults ()
   ;; 
   ;; (setq indent-tabs-mode t )

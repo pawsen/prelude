@@ -4,15 +4,15 @@
 ;; (setq compilation-ask-about-save nil) ;; dont ask about save - just do it
 ;; (setq compilation-scroll-output 1) ;; automatically scroll the compilation window
 ;; (setq compilation-window-height 10) ;; Set the compilation window height...
-(setq compilation-finish-function ;; Auto-dismiss compilation buffer...
-      (lambda (buf str)
-        (if (string-match "exited abnormally" str)
-            (message "compilation errors, press F8 to visit")
-          (progn
-            ;;(run-at-time 2.5 nil 'delete-windows-on buf) ; no errors, delete the compilation window
-            (run-at-time 2.5 nil 'winner-undo); set windows back to configuration before compilation
-            (message "No compilation errors!")))
-        ))
+;; (setq compilation-finish-function ;; Auto-dismiss compilation buffer...
+;;       (lambda (buf str)
+;;         (if (string-match "exited abnormally" str)
+;;             (message "compilation errors, press F8 to visit")
+;;           (progn
+;;             ;;(run-at-time 2.5 nil 'delete-windows-on buf) ; no errors, delete the compilation window
+;;             (run-at-time 2.5 nil 'winner-undo); set windows back to configuration before compilation
+;;             (message "No compilation errors!")))
+;;         ))
 
 
 (defun* get-closest-pathname (&optional (file "Makefile"))
