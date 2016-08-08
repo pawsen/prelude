@@ -51,19 +51,6 @@
 (global-set-key [f7] 'gud-until) ; run until next break-point
 (global-set-key [C-f7] 'gud-finish) ; finish and return from
 
-
-;; Disable several ido kbds
-(require'ido)
-(defun ido-my-keys ()
-"Add my keybindings for ido."
-(define-key ido-file-dir-completion-map [(meta ?b)] 'backward-word)
-(define-key ido-file-dir-completion-map [(meta ?d)] 'kill-word)
-(define-key ido-file-dir-completion-map [(meta ?f)] 'forward-word)
-(define-key ido-file-dir-completion-map "\C-x\C-f" nil)
-(define-key ido-common-completion-map "\C-a" 'move-beginning-of-line)
-(define-key ido-common-completion-map "\C-e" 'move-end-of-line)
-(define-key ido-common-completion-map "\C-f" 'forward-char))
-(add-hook 'ido-setup-hook 'ido-my-keys)
 ;;; Unbinding keys
 (global-unset-key (kbd "C-x C-p")) ; used to mark page
 (global-unset-key (kbd "C-x C-n")) ; used to set-goal-column
@@ -90,14 +77,6 @@
 (define-key prelude-mode-map (kbd "M-k") 'kill-this-buffer)
 (define-key prelude-mode-map (kbd "s-0") 'balance-windows)
 (define-key prelude-mode-map (kbd "C-x o") 'ace-window)
-;; Use regex searches by default.
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-(global-set-key (kbd "C-M-%") 'query-replace)
-(global-set-key (kbd "M-r") 'highlight-symbol-query-replace)
 (prelude-require-packages
 '(expand-region highlight-symbol multiple-cursors smart-shift))
 ;; Expand region
