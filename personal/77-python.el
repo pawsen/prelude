@@ -1,23 +1,81 @@
-(use-package python-mode
-  :init (progn
-          (add-hook 'python-mode-hook 'highlight-indentation-mode)
-          (add-hook 'python-mode-hook 'anaconda-mode)
-          (add-hook 'python-mode-hook 'eldoc-mode)
-          (add-hook 'python-mode-hook 'sphinx-doc-mode))
 
-  :config (progn
-            (setq-default python-indent 4)
-            (setq python-fill-docstring-style 'onetwo)
 
-            (when (executable-find "ipython")
-              (setq
-               python-shell-interpreter "ipython"
-               python-shell-interpreter-args ""
-               python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-               python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-               python-shell-completion-setup-code
-               "from IPython.core.completerlib import module_completion"
-               python-shell-completion-module-string-code
-               "';'.join(module_completion('''%s'''))\n"
-               python-shell-completion-string-code
-               "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))))
+(elpy-enable)
+;; elpy can either use jedi or rope. If both are available, it chooses rope.
+(setq elpy-rpc-backend "jedi")
+;; use ipython3 if available
+(when (executable-find "ipython")
+  (elpy-use-ipython "ipython3"))
+
+;; use helm for searching in history
+(define-key comint-mode-map (kbd "M-r") 'helm-comint-input-ring)
+
+;; Don't use tab for yasnippets, use shift-tab.
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
+
+;; save comint history.
+;; comint is the shell that runs the inferior python interpreter.
+(defun comint-write-history-on-exit (process event)
+  "Write comint history of PROCESS when EVENT happened to a file
+specified in buffer local var
+'comint-input-ring-file-name' (defined in
+turn-on-comint-history)."
+  (comint-write-input-ring)
+  (let ((buf (process-buffer process)))
+    (when (buffer-live-p buf)
+      (with-current-buffer buf
+        (insert (format "\nProcess %s %s" process event))))))
+
+(defun turn-on-comint-history ()
+  "Setup comint history.
+
+When comint process started set buffer local var
+'comint-input-ring-file-name', so that a file name is specified
+to write and read from comint history.
+
+That 'comint-input-ring-file-name' is buffer local is determined
+by the 4th argument to 'add-hook' below.  And localness is
+important, because otherwise 'comint-write-input-ring' will find
+mentioned var nil."
+
+  (let ((process (get-buffer-process (current-buffer))))
+    (when process
+      (setq comint-input-ring-file-name
+            (format "~/.emacs.d/inferior-%s-history"
+                    (process-name process)))
+      (comint-read-input-ring)
+      (set-process-sentinel process
+                            #'comint-write-history-on-exit))))
+
+;;The history will be saved calling 'comint-send-eof' (usually C-c C-d).
+(add-hook 'inferior-python-mode-hook 'turn-on-comint-history)
+;; save also with 'kill-this-buffer'
+(add-hook 'kill-buffer-hook 'comint-write-input-ring)
+
+;; When Emacs itself is killed, kill-buffer-hook is not run on individual
+;;buffers. We can circumvent this problem by adding a hook to kill-emacs-hook
+;;that traverses the list of all buffers and writes the input ring (if it is
+;;available) of each buffer to a file.
+(defun mapc-buffers (fn)
+  (mapc (lambda (buffer)
+          (with-current-buffer buffer
+            (funcall fn)))
+        (buffer-list)))
+
+(defun comint-write-input-ring-all-buffers ()
+  (mapc-buffers 'comint-write-input-ring))
+
+(add-hook 'kill-emacs-hook 'comint-write-input-ring-all-buffers)
+
+;; Make FlyCheck less pedantic(it uses flake8 as standard)
+;; https://flake8.readthedocs.io/en/2.0/config.html
+;; https://flake8.readthedocs.io/en/2.0/warnings.html#error-codes
+;; The flake8 configuration file is the place where you setup the preferences
+;; emacs ~/.config/flake8
+;; [flake8]
+;; ignore = E221,E501,E203,E202,E272,E251,E211,E222,E701
+;; max-line-length = 160
+;; exclude = tests/*
+;; max-complexity = 10

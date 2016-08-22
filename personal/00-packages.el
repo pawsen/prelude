@@ -1,5 +1,7 @@
 (require 'package)
 (package-initialize)
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 ;; My packages
 (setq prelude-packages (append '(
                                  web-mode
@@ -18,6 +20,7 @@
                                  undo-tree
                                  helm-swoop
 								 helm-gtags
+								 elpy
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
