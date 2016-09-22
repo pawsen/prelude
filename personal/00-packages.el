@@ -20,6 +20,7 @@
                                  undo-tree
                                  helm-swoop
 								 helm-gtags
+								 helm-bibtex
 								 elpy
                                  ) prelude-packages))
 ;; Install my packages
