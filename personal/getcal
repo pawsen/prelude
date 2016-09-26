@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+ #!/usr/bin/perl
+
+# http://orgmode.org/manual/Extracting-agenda-information.html
+
+# define the Emacs command to run
+$cmd = "emacs -batch -l ~/.emacs.d/personal/77-org.el -eval '(org-batch-agenda-csv \"n\" org-agenda-span (quote month))'";
+
+# run it and capture the output
+$agenda = qx{$cmd 2>/dev/null};
+
+# loop over all lines
+print "Today: \n";
+foreach $line (split(/\n/,$agenda)) {
+	# get the individual values
+	($category,$head,$type,$todo,$tags,$date,$time,$extra,
+	 $priority_l,$priority_n) = split(/,/,$line);
+	# process and print
+	print "[ ] $date, $time: $head\n";
+}
