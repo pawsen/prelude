@@ -65,8 +65,8 @@
 (global-set-key (kbd "C-M-h") 'backward-kill-word)
 (define-key key-translation-map [?\C-h] [?\C-?])
 ;; Vim like open previous/next line
-(global-set-key (kbd "C-o") 'prelude-smart-open-line)
-(global-set-key (kbd "C-M-o") 'prelude-smart-open-line-above)
+(global-set-key (kbd "C-o") 'crux-smart-open-line)
+(global-set-key (kbd "C-M-o") 'crux-smart-open-line-above)
 ;; Window switching
 (define-key prelude-mode-map (kbd "M-0") 'delete-window)
 (define-key prelude-mode-map (kbd "M-1") 'delete-other-windows)

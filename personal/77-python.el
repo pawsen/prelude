@@ -5,7 +5,13 @@
 (setq elpy-rpc-backend "jedi")
 ;; use ipython3 if available
 (when (executable-find "ipython")
-  (elpy-use-ipython "ipython3"))
+  (elpy-use-ipython "ipython3")
+  (setq elpy-rpc-python-command "python3")
+  (setq python-shell-interpreter "ipython3" python-shell-interpreter-args "--simple-prompt --pprint")
+  (setq python-shell-completion-native "nil")
+  )
+
+
 
 ;; use helm for searching in history
 (define-key comint-mode-map (kbd "M-r") 'helm-comint-input-ring)

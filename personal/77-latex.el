@@ -18,10 +18,12 @@
 (setq helm-bibtex-bibliography '("~/ownCloud/speciale/report/biblio/biblio.bib"))
 (setq bibtex-completion-pdf-field "File") ;use the File describer in the bib file
 (setq helm-bibtex-pdf-open-function
-	  (lambda (fpath)
-		(start-process "evince" "*helm-bibtex-evince*" "/usr/bin/evince" fpath)))
+      (lambda (fpath)
+        (start-process "evince" "*helm-bibtex-evince*" "/usr/bin/evince" fpath)))
 (add-hook 'TeX-mode-hook
-		  (lambda() (define-key TeX-mode-map "\C-c[" 'helm-bibtex)))
+          (lambda() (define-key TeX-mode-map "\C-c[" 'helm-bibtex)))
+
+(require 'helm-bibtex)
 ;; change default behavior. Because TAB does not work. Probably because of prelude
 ;; https://github.com/tmalsburg/helm-bibtex#change-the-default-action
 (helm-delete-action-from-source "Insert citation" helm-source-bibtex)

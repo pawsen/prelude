@@ -19,9 +19,9 @@
                                  highlight-indentation
                                  undo-tree
                                  helm-swoop
-								 helm-gtags
-								 helm-bibtex
-								 elpy
+                                 helm-gtags
+                                 helm-bibtex
+                                 elpy
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)

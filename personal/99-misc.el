@@ -60,7 +60,10 @@
 
 
 ;; helm
- (setq helm-quick-update t
+;; try to save sessions/history of M-x helm
+;; otherwise look at https://github.com/thierryvolpiatto/psession
+;; (add-hook 'after-init-hook 'session-initialize)
+(setq helm-quick-update t
 	   helm-bookmark-show-location t
 	   helm-buffers-fuzzy-matching t
 	   helm-input-idle-delay 0.01)
