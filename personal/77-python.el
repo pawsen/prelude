@@ -12,6 +12,37 @@
   )
 
 
+(defun python-add-breakpoint ()
+  "Add a break point"
+  (interactive)
+  (newline-and-indent)
+  (insert "import ipdb; ipdb.set_trace()")
+  (highlight-lines-matching-regexp "^[ ]*import ipdb; ipdb.set_trace()"))
+(global-unset-key (kbd "C-c C-b"))
+(define-key python-mode-map (kbd "C-c i") 'python-add-breakpoint)
+
+(defun ipdb-cleanup ()
+    (interactive)
+    (save-excursion
+      (replace-regexp ".*ipdb.set_trace().*\n" "" nil (point-min) (point-max))
+      ;; (save-buffer)
+      ))
+
+(defun annotate-pdb ()
+  (highlight-lines-matching-regexp "import ipdb")
+  (highlight-lines-matching-regexp "ipdb.set_trace()"))
+(add-hook 'python-mode-hook 'annotate-pdb)
+
+(defun python-interactive ()
+  "Enter the interactive Python environment"
+  (interactive)
+  (progn
+    (insert "!import code; code.interact(local=vars())")
+    (move-end-of-line 1)
+    (comint-send-input)))
+(global-set-key (kbd "C-c i") 'python-interactive)
+
+
 
 ;; use helm for searching in history
 (define-key comint-mode-map (kbd "M-r") 'helm-comint-input-ring)
