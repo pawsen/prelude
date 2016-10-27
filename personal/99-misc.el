@@ -8,6 +8,8 @@
 ;; can't do it at launch or emacsclient won't always honor it
 (add-hook 'before-make-frame-hook 'esk-turn-off-tool-bar)
 
+;; save sessions. Especially M-x commando history for helm.
+(add-hook 'after-init-hook 'session-initialize)
 
 ;;; Disable guru-mode completely
 (require 'guru-mode)

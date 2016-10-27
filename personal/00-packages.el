@@ -22,6 +22,7 @@
                                  helm-gtags
                                  helm-bibtex
                                  elpy
+                                 session
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
